@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from body import Body, Cords
+from constants import frame_rate
 
 root = Tk()
 
@@ -21,7 +22,7 @@ def click(event):
 def updateBodies():
     global bodies, root, mainBdy
 
-    root.after(14, updateBodies)
+    root.after(frame_rate, updateBodies)
     if len(bodies) > 0:
         for body in bodies:
             if body.collidesWith(mainBdy):
@@ -29,7 +30,7 @@ def updateBodies():
                 cnvs.delete(body.shape)
                 continue
 
-            dcords = body.calcMovement(windowCenter)
+            dcords = body.calcMovement(mainBdy)
             cnvs.move(body.shape, dcords.x, dcords.y)
 
 
@@ -40,6 +41,6 @@ mainBdy = Body(cnvs, 60000, windowCenter, 'yellow')
 
 cnvs.bind('<Button-1>', click)
 
-root.after(140, updateBodies)
+root.after(frame_rate, updateBodies)
 
 root.mainloop()
